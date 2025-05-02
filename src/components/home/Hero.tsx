@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Shield, ArrowRight } from "lucide-react";
+import { Shield, ArrowRight, Camera } from "lucide-react";
 
 export function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);

@@ -2,7 +2,7 @@
 import React from "react";
 import { 
   Camera, CameraOff, Home, Factory, Wifi, 
-  CalendarCheck, Image, RemoteControl 
+  CalendarCheck, MonitorSmartphone, Settings 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,7 +36,7 @@ const services = [
   {
     title: "Remote Monitoring Setup",
     description: "Configure your system for reliable remote monitoring from anywhere.",
-    icon: RemoteControl,
+    icon: MonitorSmartphone,
   },
   {
     title: "Wireless Camera Systems",
@@ -72,7 +72,7 @@ export function Services() {
                 <CardDescription>{service.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="link" className="p-0 h-auto" href="#contact">
+                <Button variant="link" className="p-0 h-auto" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
                   Learn more →
                 </Button>
               </CardContent>
