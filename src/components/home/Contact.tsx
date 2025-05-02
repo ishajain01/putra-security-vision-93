@@ -4,8 +4,46 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Camera, Send } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { toast } from "sonner";
+
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  phone: z.string().min(6, { message: "Please enter a valid phone number." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  subject: z.string().min(2, { message: "Subject must be at least 2 characters." }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export function Contact() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  function onSubmit(values: FormValues) {
+    console.log("Form submitted:", values);
+    
+    // Show success toast notification
+    toast.success("Message sent successfully!", {
+      description: "We'll get back to you as soon as possible.",
+    });
+    
+    // Reset form
+    form.reset();
+  }
+
   return (
     <section id="contact" className="section-padding">
       <div className="container mx-auto">
@@ -24,38 +62,86 @@ export function Contact() {
               <h3 className="text-xl font-semibold">Send us a message</h3>
             </div>
             
-            <form className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
-                  <Input id="name" placeholder="Your name" />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Your name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Your phone number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-1">Phone</label>
-                  <Input id="phone" placeholder="Your phone number" />
-                </div>
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
-                <Input id="email" type="email" placeholder="Your email address" />
-              </div>
-              
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-1">Subject</label>
-                <Input id="subject" placeholder="How can we help?" />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
-                <Textarea id="message" placeholder="Tell us more about your requirements..." className="min-h-[120px]" />
-              </div>
-              
-              <Button type="submit" className="w-full gap-2">
-                Send Message
-                <Send className="w-4 h-4" />
-              </Button>
-            </form>
+                
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Your email address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Subject</FormLabel>
+                      <FormControl>
+                        <Input placeholder="How can we help?" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Tell us more about your requirements..." className="min-h-[120px]" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <Button type="submit" className="w-full gap-2">
+                  Send Message
+                  <Send className="w-4 h-4" />
+                </Button>
+              </form>
+            </Form>
           </div>
           
           {/* Contact Information & Map */}
