@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
 import { 
   Camera, CameraOff, Home, Factory, Wifi, 
   CalendarCheck, MonitorSmartphone, Settings 
@@ -9,41 +10,49 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const services = [
   {
+    id: "cctv-installation",
     title: "CCTV Installation",
     description: "Professional installation of security cameras for optimal coverage and protection.",
     icon: Camera,
   },
   {
+    id: "cctv-maintenance",
     title: "CCTV Maintenance",
     description: "Regular maintenance services to ensure your security system works flawlessly.",
     icon: CameraOff,
   },
   {
+    id: "ip-camera-setup",
     title: "IP Camera Setup",
     description: "Setup and configuration of advanced IP camera systems with remote access.",
     icon: Camera,
   },
   {
+    id: "smart-home-surveillance",
     title: "Smart Home Surveillance",
     description: "Integrate security cameras with your smart home ecosystem for seamless control.",
     icon: Home,
   },
   {
+    id: "office-industrial-surveillance",
     title: "Office & Industrial Surveillance",
     description: "Custom security solutions for commercial and industrial properties.",
     icon: Factory,
   },
   {
+    id: "remote-monitoring-setup",
     title: "Remote Monitoring Setup",
     description: "Configure your system for reliable remote monitoring from anywhere.",
     icon: MonitorSmartphone,
   },
   {
+    id: "wireless-camera-systems",
     title: "Wireless Camera Systems",
     description: "Installation of wireless security systems for flexibility and easy setup.",
     icon: Wifi,
   },
   {
+    id: "annual-maintenance-contracts",
     title: "Annual Maintenance Contracts",
     description: "Comprehensive AMC plans to keep your security system in peak condition.",
     icon: CalendarCheck,
@@ -72,16 +81,20 @@ export function Services() {
                 <CardDescription>{service.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="link" className="p-0 h-auto" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
-                  Learn more →
-                </Button>
+                <Link to={`/services/${service.id}`}>
+                  <Button variant="link" className="p-0 h-auto">
+                    Learn more →
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
         </div>
         
         <div className="mt-12 text-center">
-          <Button size="lg">View All Services</Button>
+          <Link to="/services">
+            <Button size="lg">View All Services</Button>
+          </Link>
         </div>
       </div>
     </section>
